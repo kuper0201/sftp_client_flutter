@@ -11,6 +11,29 @@ class RemoteTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RemoteViewModel>(
       builder: (context, viewModel, child) {
+        if(viewModel.onError) {
+          if (viewModel.onError) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Connection error!'),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            });
+          }
+        }
+
         if(viewModel.isLoading) {
           return Center(child: CircularProgressIndicator());
         }
@@ -33,31 +56,3 @@ class RemoteTab extends StatelessWidget {
     ); 
   }
 }
-
-// class RemoteTab extends StatefulWidget {
-//   const RemoteTab({super.key});
-
-//   @override
-//   State<StatefulWidget> createState() => RemoteTabState();
-// }
-
-// class RemoteTabState extends State<RemoteTab> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<RemoteViewModel>(
-//       builder: (context, viewModel, child) {
-//         if(viewModel.isLoading) {
-//           return Center(child: CircularProgressIndicator());
-//         }
-
-//         final items = viewModel.entries;
-//         return ListView.builder(
-//           itemCount: items.length,
-//           itemBuilder: (context, index) {
-//             return ListItem(item: items[index]);
-//           },
-//         );
-//       }
-//     ); 
-//   }
-// }

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sftp_flutter/custom_expandable_fab.dart';
 import 'package:sftp_flutter/pages/server_list.dart';
 import 'package:sftp_flutter/view_models/remote_viewmodel.dart';
-import 'package:sftp_flutter/pages/client_page.dart';
+import 'package:sftp_flutter/pages/remote_page.dart';
 import 'package:sftp_flutter/tabs/local_tab.dart';
 import 'package:sftp_flutter/tabs/remote_tab.dart';
 
@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
           useMaterial3: true,
         ),
-        home: const ClientPage(title: 'Flutter Demo Home Page'),
+        home: ServerList()
+        // const RemotePage(title: 'Flutter Demo Home Page'),
       ),
     );
   }

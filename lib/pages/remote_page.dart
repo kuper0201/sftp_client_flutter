@@ -4,16 +4,16 @@ import 'package:sftp_flutter/custom_expandable_fab.dart';
 import 'package:sftp_flutter/tabs/local_tab.dart';
 import 'package:sftp_flutter/tabs/remote_tab.dart';
 
-class ClientPage extends StatefulWidget {
-  const ClientPage({super.key, required this.title});
+class RemotePage extends StatefulWidget {
+  const RemotePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ClientPage> createState() => _ClientPageState();
+  State<RemotePage> createState() => _RemotePageState();
 }
 
-class _ClientPageState extends State<ClientPage> {
+class _RemotePageState extends State<RemotePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

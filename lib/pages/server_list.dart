@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sftp_flutter/pages/remote_page.dart';
 
 class ServerList extends StatelessWidget {
   const ServerList({super.key});
@@ -7,7 +8,7 @@ class ServerList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        print("test click");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RemotePage(title: 'Server1')));
       },
       child: Text("test")
     );

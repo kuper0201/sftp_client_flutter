@@ -12,6 +12,9 @@ class RemoteViewModel with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  bool _onError = false;
+  bool get onError => _onError;
+
   List<SftpName> get entries => _entries;
   String get path => "/${_currentPath.join('/')}";
 
@@ -33,6 +36,7 @@ class RemoteViewModel with ChangeNotifier {
         notifyListeners();
       },
       onError: (error) {
+        _onError = true;
         _isLoading = false;
         notifyListeners();
       }
