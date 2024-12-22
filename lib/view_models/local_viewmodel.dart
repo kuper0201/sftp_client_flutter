@@ -1,12 +1,11 @@
-import 'dart:math';
+import 'dart:io';
 
-import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 import 'package:sftp_flutter/models/entry_data.dart';
-import 'package:sftp_flutter/repositories/remote_repo.dart';
+import 'package:sftp_flutter/repositories/local_repo.dart';
 
-class RemoteViewModel with ChangeNotifier {
-  final SFTPRepo sftpRepo;
+class LocalViewModel with ChangeNotifier {
+  final LocalRepo localRepo;
   
   List<EntryData> _entries = [];
   List<EntryData> get entries => _entries;
@@ -20,7 +19,7 @@ class RemoteViewModel with ChangeNotifier {
   String? _onError;
   String? get onError => _onError;
 
-  RemoteViewModel({required this.sftpRepo});
+  LocalViewModel({required this.localRepo});
 
   Future<void> fetchFiles() async {
     _isLoading = true;
@@ -29,15 +28,17 @@ class RemoteViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      // Load file entries from server
-      final entries = await sftpRepo.fetchEntries(path);
-      entries.sort((a, b) => a.filename.compareTo(b.filename));
+      final entries = await localRepo.fetchEntries(path);
+      entries.sort((a, b) => a.path.compareTo(b.path));
       entries.removeAt(0);
 
       // Convert from sftpname to EntryData
       _entries = entries.map((entry) {
-        return EntryData(name: entry.filename, type: (entry.attr.isFile) ? Type.file : Type.directory, size: entry.attr.size, modifyTime: entry.attr.modifyTime, accesstime: entry.attr.accessTime);
+        final spt = entry.path.split("/");
+        final name = spt[spt.length - 1];
+        return EntryData(name: name, type: (entry.statSync().type == FileSystemEntityType.file) ? Type.file : Type.directory, size: entry.statSync().size);
       }).toList();
+      _entries.insert(0, EntryData(name: "..", type: Type.directory));
     } catch (e) {
       _onError = e.toString();
     } finally {
@@ -50,19 +51,11 @@ class RemoteViewModel with ChangeNotifier {
     if(dir == '..') {
       _currentPath.removeLast();
     } else {
-      _currentPath.add(dir);
+      final d = dir.split("/");
+
+      _currentPath.add(d[d.length - 1]);
     }
 
     fetchFiles();
-  }
-
-  void disconnect() {
-    sftpRepo.disconnect();
-  }
-
-  @override
-  void dispose() {
-    sftpRepo.disconnect();
-    super.dispose();
   }
 }
