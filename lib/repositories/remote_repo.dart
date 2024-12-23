@@ -22,7 +22,7 @@ class SFTPRepo {
 
       _sftp = await client.sftp();
     } catch (e) {
-      print(e);
+      print('connect sftp error: $e');
       rethrow;
     }
   }
@@ -34,8 +34,7 @@ class SFTPRepo {
       }
       return await _sftp!.listdir(path);
     } catch (e) {
-      print(path);
-      print('SFTP 목록 가져오기 오류: $e');
+      print('fetch entry error: $e');
       rethrow;
     }
   }

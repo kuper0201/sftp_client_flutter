@@ -25,7 +25,8 @@ class LocalTab extends StatelessWidget {
                   actions: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.pop(context);
+                        // Navigator.popUntil(context, (route) => route.isFirst);
                       },
                       child: Text('OK'),
                     ),

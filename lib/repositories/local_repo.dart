@@ -6,9 +6,10 @@ class LocalRepo {
     
     try {
       final dir = Directory(path);
-      entries = await dir.list().toList();
+      // entries = await dir.list().toList();
+      entries = dir.listSync().toList();
     } catch (e) {
-      print(e);
+      print('fetch entry error: $e');
       rethrow;
     }
 
