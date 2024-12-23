@@ -132,6 +132,43 @@ class SFTPClient extends StatelessWidget {
                         final localRepo = LocalRepo();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ClientPage(remoteRepo: remoteRepo, localRepo: localRepo,)));
                       },
+                      onLongPress: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Expanded(
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text('Edit'),
+                                      onTap: () {
+
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('Remove'),
+                                      onTap: () {
+                                        
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () { Navigator.pop(context); },
+                                  child: Text('Cancel')
+                                ),
+                                ElevatedButton(
+                                  onPressed: () { Navigator.pop(context); },
+                                  child: Text('OK')
+                                )
+                              ],
+                            );
+                          }
+                        );
+                      },
                     ),
                   );
                 }
