@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sftp_flutter/models/entry_data.dart';
-import 'package:sftp_flutter/view_models/remote_viewmodel.dart';
+import 'package:sftp_flutter/data/entry_data.dart';
+import 'package:sftp_flutter/view_models/remote_vm.dart';
 
 class ListItem extends StatelessWidget {
   final EntryData item;

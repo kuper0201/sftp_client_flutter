@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sftp_flutter/models/entry_data.dart';
+import 'package:sftp_flutter/data/entry_data.dart';
 import 'package:sftp_flutter/repositories/local_repo.dart';
 
 class LocalViewModel with ChangeNotifier {

@@ -6,8 +6,8 @@ import 'package:sftp_flutter/repositories/local_repo.dart';
 import 'package:sftp_flutter/repositories/remote_repo.dart';
 import 'package:sftp_flutter/views/tabs/local_tab.dart';
 import 'package:sftp_flutter/views/tabs/remote_tab.dart';
-import 'package:sftp_flutter/view_models/local_viewmodel.dart';
-import 'package:sftp_flutter/view_models/remote_viewmodel.dart';
+import 'package:sftp_flutter/view_models/local_vm.dart';
+import 'package:sftp_flutter/view_models/remote_vm.dart';
 
 class ClientPage extends StatelessWidget {
   final SFTPRepo remoteRepo;
