@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/material.dart';
 import 'package:sftp_flutter/data/entry_data.dart';
 import 'package:sftp_flutter/repositories/remote_repo.dart';
