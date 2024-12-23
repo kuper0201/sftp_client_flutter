@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sftp_flutter/repositories/local_repo.dart';
 import 'package:sftp_flutter/repositories/remote_repo.dart';
 import 'package:sftp_flutter/view_models/servers_vm.dart';
-import 'package:sftp_flutter/views/client_page.dart';
+import 'package:sftp_flutter/screens/client_page.dart';
 
 class SFTPClient extends StatelessWidget {
   const SFTPClient({super.key});

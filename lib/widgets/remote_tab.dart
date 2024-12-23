@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sftp_flutter/views/list_item.dart';
+import 'package:sftp_flutter/widgets/list_item.dart';
 import 'package:sftp_flutter/view_models/remote_vm.dart';
 
 class RemoteTab extends StatelessWidget {
