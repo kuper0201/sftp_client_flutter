@@ -35,4 +35,16 @@ class ServersViewModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> updateServer(String prevName, String name, String host, String userName, String password, int port) async {
+    final serverInfo = ServerInfo(name: name, host: host, userName: userName, password: password, port: port);
+    
+    await removeServer(prevName);
+
+    await model.newServer(name, serverInfo.toJSon());
+    await model.updateAllServerKey(name);
+    
+    _servers.add(serverInfo);
+    notifyListeners();
+  }
 }

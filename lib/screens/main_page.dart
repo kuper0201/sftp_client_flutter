@@ -47,8 +47,8 @@ class SFTPClient extends StatelessWidget {
 
                   return Card(
                     child: ListTile(
-                      title: Text(host),
-                      subtitle: Text(userName),
+                      title: Text(name),
+                      subtitle: Text(host),
                       onTap: () {
                         final remoteRepo = SFTPRepo(host: host, userName: userName, password: password, port: port);
                         final localRepo = LocalRepo();
@@ -57,7 +57,7 @@ class SFTPClient extends StatelessWidget {
                       onLongPress: () {
                         showDialog(
                           context: context,
-                          builder: (context) => LongClickDialog(name: name)
+                          builder: (context) => LongClickDialog(name: name, host: host, userName: userName, password: password, port: port)
                         );
                       },
                     ),
