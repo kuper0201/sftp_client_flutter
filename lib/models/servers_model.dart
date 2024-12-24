@@ -49,4 +49,25 @@ class ServersModel {
     }
     return null;
   }
+
+  Future<void> removeServer(String key) async {
+    await storage.delete(key: key);
+  }
+
+  Future<void> removeServerKey(String key) async {
+    String? jsonString = await storage.read(key: key_for_keys);
+    
+    List<dynamic> lst;
+    if(jsonString != null) {
+      lst = jsonDecode(jsonString);
+    } else {
+      lst = [];
+    }
+
+    if(lst.contains(key)) {
+      lst.remove(key);
+    }
+
+    await storage.write(key: key_for_keys, value: jsonEncode(lst));
+  }
 }

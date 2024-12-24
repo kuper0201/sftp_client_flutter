@@ -27,4 +27,12 @@ class ServersViewModel with ChangeNotifier {
   
     notifyListeners();
   }
+
+  Future<void> removeServer(String key) async {
+    await model.removeServer(key);
+    await model.removeServerKey(key);
+    _servers.removeWhere((item) => (item.name == key));
+
+    notifyListeners();
+  }
 }
