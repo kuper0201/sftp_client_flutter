@@ -50,7 +50,7 @@ class SFTPClient extends StatelessWidget {
                       title: Text(name),
                       subtitle: Text(host),
                       onTap: () {
-                        final remoteRepo = SFTPRepo(host: host, userName: userName, password: password, port: port);
+                        final remoteRepo = SFTPRepo(name: name, host: host, userName: userName, password: password, port: port);
                         final localRepo = LocalRepo();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ClientPage(remoteRepo: remoteRepo, localRepo: localRepo,)));
                       },

@@ -35,14 +35,27 @@ class ClientPage extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Rename"), icon: const Icon(Icons.drive_file_rename_outline))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Remove"), icon: const Icon(Icons.remove))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Copy"), icon: const Icon(Icons.drive_file_rename_outline))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Move"), icon: const Icon(Icons.drive_file_rename_outline))),
+                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Remove"), icon: const Icon(Icons.delete))),
+                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Copy"), icon: const Icon(Icons.copy))),
+                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Move"), icon: const Icon(Icons.cut))),
               ],
             ),
           ),
           appBar: AppBar(
-            title: const Text('Server Name'),
+            leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+            title: Text(remoteRepo.name),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: [
+            //       IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Rename"), icon: const Icon(Icons.drive_file_rename_outline))),
+            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Remove"), icon: const Icon(Icons.delete))),
+            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Copy"), icon: const Icon(Icons.copy))),
+            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Move"), icon: const Icon(Icons.cut))),
+            //     ],
+            //   ),
+            // ),
             bottom: TabBar(
               tabs: const [
                 Tab(icon: Icon(Icons.cloud)),

@@ -29,15 +29,17 @@ class LocalViewModel with ChangeNotifier {
 
     try {
       final entries = await localRepo.fetchEntries(path);
-      entries.sort((a, b) => a.path.compareTo(b.path));
-      entries.removeAt(0);
+      if(entries.isNotEmpty) {
+        entries.sort((a, b) => a.path.compareTo(b.path));
+        entries.removeAt(0);
 
-      // Convert from sftpname to EntryData
-      _entries = entries.map((entry) {
-        final spt = entry.path.split("/");
-        final name = spt[spt.length - 1];
-        return EntryData(name: name, type: (entry.statSync().type == FileSystemEntityType.file) ? Type.file : Type.directory, size: entry.statSync().size);
-      }).toList();
+        // Convert from FileSystemEntityType to EntryData
+        _entries = entries.map((entry) {
+          final spt = entry.path.split("/");
+          final name = spt[spt.length - 1];
+          return EntryData(name: name, type: (entry.statSync().type == FileSystemEntityType.file) ? Type.file : Type.directory, size: entry.statSync().size);
+        }).toList();
+      }
       _entries.insert(0, EntryData(name: "..", type: Type.directory));
     } catch (e) {
       _onError = e.toString();

@@ -1,6 +1,7 @@
 import 'package:dartssh2/dartssh2.dart';
 
 class SFTPRepo {
+  final String name;
   final String host;
   final String userName;
   final String password;
@@ -8,7 +9,7 @@ class SFTPRepo {
 
   SftpClient? _sftp;
 
-  SFTPRepo({required this.host, this.port = 22, required this.userName, required this.password});
+  SFTPRepo({required this.name, required this.host, this.port = 22, required this.userName, required this.password});
 
   Future<void> _connectSFTP() async {
     try {

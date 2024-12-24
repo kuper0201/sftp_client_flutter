@@ -55,21 +55,17 @@ class CustomExpandableFab extends StatelessWidget {
                         )
                       ),
                       actions: <Widget>[
-                        Container(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Cancel"),
-                          ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Cancel"),
                         ),
-                        Container(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              Navigator.pop(context, true);
-                            },
-                            child: Text("OK"),
-                          ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            Navigator.pop(context, true);
+                          },
+                          child: Text("OK"),
                         ),
                       ],
                     );
