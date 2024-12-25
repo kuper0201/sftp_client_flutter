@@ -47,6 +47,7 @@ class ClientPage extends StatelessWidget {
                 appBar: AppBar(
                   leading: _buildLeading(context, remoteViewModel, localViewModel),
                   actions: (remoteViewModel.isSelectMode) ? [
+                    Text("${remoteViewModel.selectedEntries.length} Items"),
                     IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
                     IconButton(onPressed: () {}, icon: Icon(Icons.copy)),
                     IconButton(onPressed: () {}, icon: Icon(Icons.cut)),
