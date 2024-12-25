@@ -17,9 +17,9 @@ class ClientPage extends StatelessWidget {
 
   Widget _buildLeading<T>(context, RemoteViewModel remoteViewModel, LocalViewModel localViewModel) {
     if(DefaultTabController.of(context).index == 0) {
-      return (remoteViewModel.isSelectMode) ? IconButton(onPressed: () => remoteViewModel.unselectAll(), icon: Icon(Icons.cancel)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+      return (remoteViewModel.isSelectMode) ? IconButton(onPressed: () => remoteViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
     } else {
-      return (localViewModel.isSelectMode) ? IconButton(onPressed: () => localViewModel.unselectAll(), icon: Icon(Icons.cancel)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+      return (localViewModel.isSelectMode) ? IconButton(onPressed: () => localViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
     }
   }
 

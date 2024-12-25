@@ -21,11 +21,9 @@ class SFTPClient extends StatelessWidget {
           useMaterial3: true,
         ),
         home: Consumer<ServersViewModel>(
-          builder: (context, model, _) {
+          builder: (context, viewModel, _) {
             return Scaffold(
-              appBar: AppBar(
-                title: Text("SFTP Client"),
-              ),
+              appBar: AppBar(title: Text("SFTP Client")),
               floatingActionButton: FloatingActionButton(
                 shape: const CircleBorder(),
                 child: Icon(Icons.add),
@@ -37,13 +35,13 @@ class SFTPClient extends StatelessWidget {
                 }
               ),
               body: ListView.builder(
-                itemCount: model.servers.length,
+                itemCount: viewModel.servers.length,
                 itemBuilder:(context, index) {
-                  String name = model.servers[index].name;
-                  String host = model.servers[index].host;
-                  String userName = model.servers[index].userName;
-                  String password = model.servers[index].password;
-                  int port = model.servers[index].port;
+                  String name = viewModel.servers[index].name;
+                  String host = viewModel.servers[index].host;
+                  String userName = viewModel.servers[index].userName;
+                  String password = viewModel.servers[index].password;
+                  int port = viewModel.servers[index].port;
 
                   return Card(
                     child: ListTile(
