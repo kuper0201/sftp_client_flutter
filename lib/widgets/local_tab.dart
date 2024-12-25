@@ -6,6 +6,27 @@ import 'package:sftp_flutter/widgets/list_item.dart';
 class LocalTab extends StatelessWidget {
   const LocalTab({super.key});
 
+  void showErrorDialog(viewModel, context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        viewModel.disconnect();
+        return AlertDialog(
+          title: Text('Listing error!'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LocalViewModel>(
@@ -16,36 +37,24 @@ class LocalTab extends StatelessWidget {
 
         if(viewModel.onError != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('Listing error!\n${viewModel.onError}'),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        // Navigator.popUntil(context, (route) => route.isFirst);
-                      },
-                      child: Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
+            showErrorDialog(viewModel, context);
           });
         }
 
         return Column(
           children: [
-            Text('${viewModel.path}'),
+            Text(viewModel.path),
             Expanded(
               child: ListView.builder(
                 itemCount: viewModel.entries.length,
                 itemBuilder: (context, index) {
                   final item = viewModel.entries[index];
-                  return ListItem(item: item, onTap: () { viewModel.navigateTo(item.name); },);
+                  return ListItem(
+                    item: item,
+                    isSelected: item.isSelected,
+                    onTap: () => viewModel.onTap(index),
+                    onLongPress: () => viewModel.onLongPress(index)
+                  );
                 },
               )
             )

@@ -5,7 +5,9 @@ class EntryData {
   int? accesstime;
   int? size;
 
-  EntryData({required this.name, required this.type, this.size, this.modifyTime, this.accesstime});
+  bool isSelected;
+
+  EntryData({required this.name, required this.type, this.size, this.modifyTime, this.accesstime, this.isSelected = false});
 }
 
 enum Type {

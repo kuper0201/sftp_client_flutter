@@ -11,8 +11,14 @@ class RemoteViewModel with ChangeNotifier {
   final List<String> _currentPath = [];
   String get path => "/${_currentPath.join('/')}";
 
+  final Set<EntryData> _selectedEntries = {};
+  Set<EntryData> get selectedEntries => _selectedEntries;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  bool _isSelectMode = false;
+  bool get isSelectMode => _isSelectMode;
 
   String? _onError;
   String? get onError => _onError;
@@ -43,14 +49,55 @@ class RemoteViewModel with ChangeNotifier {
     }
   }
 
-  void navigateTo(String dir) {
-    if(dir == '..') {
+  void onTap(int index) {
+    final entry = _entries[index];
+
+    if(!_isSelectMode && (entry.type == Type.directory)) {
+      _navigateTo(_entries[index]);
+    }
+
+    if(_isSelectMode) {
+      _selectEntry(entry);
+    }
+  }
+
+  void onLongPress(int index) {
+    _selectEntry(_entries[index]);
+  }
+
+  void _navigateTo(EntryData entry) {
+    if(entry.name == '..') {
       _currentPath.removeLast();
     } else {
-      _currentPath.add(dir);
+      _currentPath.add(entry.name);
     }
 
     fetchFiles();
+  }
+
+  void _selectEntry(EntryData entry) {
+    if(_selectedEntries.contains(entry)) {
+      entry.isSelected = false;
+      _selectedEntries.remove(entry); 
+    } else {
+      entry.isSelected = true;
+      _selectedEntries.add(entry);
+    }
+
+    _isSelectMode = _selectedEntries.isNotEmpty;
+    
+    notifyListeners();
+  }
+
+  void unselectAll() {
+    for(final entry in _selectedEntries) {
+      entry.isSelected = false;
+    }
+
+    _selectedEntries.clear();
+    _isSelectMode = _selectedEntries.isNotEmpty;
+
+    notifyListeners();
   }
 
   void disconnect() {

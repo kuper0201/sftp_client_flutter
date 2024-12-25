@@ -3,8 +3,11 @@ import 'package:sftp_flutter/data/entry_data.dart';
 
 class ListItem extends StatelessWidget {
   final EntryData item;
+  final bool isSelected;
   final Function() onTap;
-  ListItem({required this.item, required this.onTap}) : super(key: Key(item.name));
+  final Function() onLongPress;
+
+  ListItem({required this.item, required this.isSelected, required this.onTap, required this.onLongPress}) : super(key: Key(item.name));
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,9 @@ class ListItem extends StatelessWidget {
       leading: Icon(isFile ? Icons.description : Icons.folder),
       title: Text(item.name),
       subtitle: (isFile) ? Text(item.size.toString()) : null,
-      onTap: (isFile) ? null : onTap,
+      selected: isSelected,
+      onTap: onTap,
+      onLongPress: onLongPress,
     );
   }
 }

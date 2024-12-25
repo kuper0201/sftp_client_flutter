@@ -15,6 +15,14 @@ class ClientPage extends StatelessWidget {
 
   const ClientPage({super.key, required this.remoteRepo, required this.localRepo});
 
+  Widget _buildLeading<T>(context, RemoteViewModel remoteViewModel, LocalViewModel localViewModel) {
+    if(DefaultTabController.of(context).index == 0) {
+      return (remoteViewModel.isSelectMode) ? IconButton(onPressed: () => remoteViewModel.unselectAll(), icon: Icon(Icons.cancel)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+    } else {
+      return (localViewModel.isSelectMode) ? IconButton(onPressed: () => localViewModel.unselectAll(), icon: Icon(Icons.cancel)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -26,53 +34,45 @@ class ClientPage extends StatelessWidget {
           create: (_) => LocalViewModel(localRepo: localRepo)..fetchFiles()
         ),
       ],
-      child: DefaultTabController(
-        initialIndex: 0,
-        length: 2,
-        child: Scaffold(
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.lightGreen,
-            child: Row(
-              children: <Widget>[
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Rename"), icon: const Icon(Icons.drive_file_rename_outline))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Remove"), icon: const Icon(Icons.delete))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Copy"), icon: const Icon(Icons.copy))),
-                Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Move"), icon: const Icon(Icons.cut))),
-              ],
-            ),
-          ),
-          appBar: AppBar(
-            leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-            title: Text(remoteRepo.name),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     children: [
-            //       IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
-            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Rename"), icon: const Icon(Icons.drive_file_rename_outline))),
-            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Remove"), icon: const Icon(Icons.delete))),
-            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Copy"), icon: const Icon(Icons.copy))),
-            //       // Expanded(child: TextButton.icon(onPressed: () {}, label: Text("Move"), icon: const Icon(Icons.cut))),
-            //     ],
-            //   ),
-            // ),
-            bottom: TabBar(
-              tabs: const [
-                Tab(icon: Icon(Icons.cloud)),
-                Tab(icon: Icon(Icons.devices))
-              ]
-            ),
-          ),
-          floatingActionButtonLocation: ExpandableFab.location,
-          floatingActionButton: CustomExpandableFab(),
-          body: TabBarView(
-            children: [
-              RemoteTab(),
-              LocalTab()
-            ]
-          ),
-        )
-      )
+      builder: (context, child) {
+        final remoteViewModel = context.watch<RemoteViewModel>();
+        final localViewModel = context.watch<LocalViewModel>();
+
+        return DefaultTabController(
+          initialIndex: 0,
+          length: 2,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
+                appBar: AppBar(
+                  leading: _buildLeading(context, remoteViewModel, localViewModel),
+                  actions: (remoteViewModel.isSelectMode) ? [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.copy)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.cut)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.drive_file_rename_outline)),
+                  ] : null,
+                  title: Text(remoteViewModel.sftpRepo.name),
+                  bottom: TabBar(
+                    tabs: const [
+                      Tab(icon: Icon(Icons.cloud)),
+                      Tab(icon: Icon(Icons.devices))
+                    ]
+                  ),
+                ),
+                floatingActionButtonLocation: ExpandableFab.location,
+                floatingActionButton: CustomExpandableFab(),
+                body: TabBarView(
+                  children: [
+                    RemoteTab(),
+                    LocalTab()
+                  ]
+                ),
+              );
+            },
+          )
+        );
+      },
     );
   }
 }
