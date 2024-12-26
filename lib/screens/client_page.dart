@@ -16,11 +16,13 @@ class ClientPage extends StatelessWidget {
   const ClientPage({super.key, required this.remoteRepo, required this.localRepo});
 
   Widget _buildLeading<T>(context, RemoteViewModel remoteViewModel, LocalViewModel localViewModel) {
-    if(DefaultTabController.of(context).index == 0) {
-      return (remoteViewModel.isSelectMode) ? IconButton(onPressed: () => remoteViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
-    } else {
-      return (localViewModel.isSelectMode) ? IconButton(onPressed: () => localViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
-    }
+    // if(DefaultTabController.of(context).index == 0) {
+    //   return (remoteViewModel.isSelectMode) ? IconButton(onPressed: () => remoteViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+    // } else {
+    //   return (localViewModel.isSelectMode) ? IconButton(onPressed: () => localViewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
+    // }
+
+    return Container();
   }
 
   @override
@@ -41,36 +43,32 @@ class ClientPage extends StatelessWidget {
         return DefaultTabController(
           initialIndex: 0,
           length: 2,
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
-                appBar: AppBar(
-                  leading: _buildLeading(context, remoteViewModel, localViewModel),
-                  actions: (remoteViewModel.isSelectMode) ? [
-                    Text("${remoteViewModel.selectedEntries.length} Items"),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.copy)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.cut)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.drive_file_rename_outline)),
-                  ] : null,
-                  title: Text(remoteViewModel.sftpRepo.name),
-                  bottom: TabBar(
-                    tabs: const [
-                      Tab(icon: Icon(Icons.cloud)),
-                      Tab(icon: Icon(Icons.devices))
-                    ]
-                  ),
-                ),
-                floatingActionButtonLocation: ExpandableFab.location,
-                floatingActionButton: CustomExpandableFab(),
-                body: TabBarView(
-                  children: [
-                    RemoteTab(),
-                    LocalTab()
-                  ]
-                ),
-              );
-            },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: _buildLeading(context, remoteViewModel, localViewModel),
+              actions: (remoteViewModel.isSelectMode) ? [
+                Text("${remoteViewModel.selectedEntries.length} Items"),
+                IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.copy)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.cut)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.drive_file_rename_outline)),
+              ] : null,
+              title: Text(remoteViewModel.sftpRepo.name),
+              bottom: TabBar(
+                tabs: const [
+                  Tab(icon: Icon(Icons.cloud)),
+                  Tab(icon: Icon(Icons.devices))
+                ]
+              ),
+            ),
+            floatingActionButtonLocation: ExpandableFab.location,
+            floatingActionButton: CustomExpandableFab(),
+            body: TabBarView(
+              children: [
+                RemoteTab(),
+                LocalTab()
+              ]
+            ),
           )
         );
       },
