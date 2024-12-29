@@ -15,4 +15,14 @@ class LocalRepo {
 
     return entries;
   }
+
+  void newDirectory(String totalPath) {
+    try {
+      final dir = Directory(totalPath);
+      dir.createSync();
+    } catch (e) {
+      print('Error on new directory: $e');
+      rethrow;
+    }
+  }
 }

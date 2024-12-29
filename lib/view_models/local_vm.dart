@@ -111,6 +111,11 @@ class LocalViewModel with ChangeNotifier {
     fetchFiles();
   }
 
+  void newDirectory(String name) async {
+    localRepo.newDirectory("$path/$name");
+    await fetchFiles();
+  }
+
   void onDelete() {
     print("local delete");
   }
