@@ -25,6 +25,9 @@ class LocalViewModel with ChangeNotifier {
   String? _onError;
   String? get onError => _onError;
 
+  String _serverName = "Local";
+  String get serverName => _serverName;
+
   LocalViewModel({required this.localRepo});
 
   Future<void> fetchFiles() async {
@@ -106,5 +109,21 @@ class LocalViewModel with ChangeNotifier {
     }
 
     fetchFiles();
+  }
+
+  void onDelete() {
+    print("local delete");
+  }
+
+  void onCopy() {
+    print("local copy");
+  }
+
+  void onCut() {
+    print("local cut");
+  }
+
+  void onRename() {
+    print("local rename");
   }
 }

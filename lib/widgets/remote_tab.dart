@@ -43,7 +43,6 @@ class RemoteTab extends StatelessWidget {
 
         return Column(
           children: [
-            Text(viewModel.path),
             Expanded(
               child: ListView.builder(
                 itemCount: viewModel.entries.length,

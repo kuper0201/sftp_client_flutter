@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 class CustomExpandableFab extends StatelessWidget {
-  const CustomExpandableFab({super.key});
+  final Function(String) newDirCallBack;
+  const CustomExpandableFab({super.key, required this.newDirCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,7 @@ class CustomExpandableFab extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () async {
+                            newDirCallBack(tc.text);
                             Navigator.pop(context, true);
                           },
                           child: Text("OK"),

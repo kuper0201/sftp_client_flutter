@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
-import 'package:sftp_flutter/view_models/client_vm.dart';
 import 'package:sftp_flutter/widgets/custom_expandable_fab.dart';
 import 'package:sftp_flutter/repositories/local_repo.dart';
 import 'package:sftp_flutter/repositories/remote_repo.dart';
@@ -57,12 +56,17 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
             leading: _buildLeading(viewModel),
             actions: (viewModel.isSelectMode) ? [
               Text("${viewModel.selectedEntries.length} Items"),
-              IconButton(onPressed: () {  }, icon: Icon(Icons.delete)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.copy)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.cut)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.drive_file_rename_outline)),
+              if(viewModel.selectedEntries.length == 1) IconButton(onPressed: viewModel.onRename, icon: Icon(Icons.drive_file_rename_outline)),
+              IconButton(onPressed: viewModel.onDelete, icon: Icon(Icons.delete)),
+              IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
+              IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
             ] : null,
-            title: Text('test'),
+            title: Column(
+              children: [
+                Text("${viewModel.serverName}"),
+                Text("${viewModel.path}", style: TextStyle(color: Colors.blueGrey, fontSize: 17),),
+              ]
+            ),
             bottom: TabBar(
               controller: _tabController,
               tabs: const [
@@ -72,7 +76,7 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
             ),
           ),
           floatingActionButtonLocation: ExpandableFab.location,
-          floatingActionButton: CustomExpandableFab(),
+          floatingActionButton: CustomExpandableFab(newDirCallBack: viewModel.newDirectory),
           body: TabBarView(
             controller: _tabController,
             children: [

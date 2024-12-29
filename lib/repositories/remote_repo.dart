@@ -40,6 +40,15 @@ class SFTPRepo {
     }
   }
 
+  Future<void> newDirectory(String totalPath) async {
+    try {
+      return await _sftp!.mkdir(totalPath);
+    } catch (e) {
+      print('Error on new directory: $e');
+      rethrow;
+    }
+  }
+
   void disconnect() {
     // _sftp!.close();
   }

@@ -23,6 +23,8 @@ class RemoteViewModel with ChangeNotifier {
   String? _onError;
   String? get onError => _onError;
 
+  String get serverName => sftpRepo.name;
+
   RemoteViewModel({required this.sftpRepo});
 
   Future<void> fetchFiles() async {
@@ -108,5 +110,26 @@ class RemoteViewModel with ChangeNotifier {
   void dispose() {
     sftpRepo.disconnect();
     super.dispose();
+  }
+
+  void newDirectory(String name) async {
+    await sftpRepo.newDirectory("$path/$name");
+    await fetchFiles();
+  }
+
+  void onDelete() {
+    print("remote delete");
+  }
+
+  void onCopy() {
+    print("remote copy");
+  }
+
+  void onCut() {
+    print("remote cut");
+  }
+
+  void onRename() {
+    print("remote rename");
   }
 }
