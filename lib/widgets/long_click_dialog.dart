@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:sftp_flutter/view_models/servers_vm.dart';
 import 'package:sftp_flutter/widgets/add_server_dialog.dart';
 
-class LongClickDialog extends StatelessWidget {
+class ServerLongClickDialog extends StatelessWidget {
   final String name;
   final String host;
   final String userName;
   final String password;
   final int port;
 
-  const LongClickDialog({super.key, required this.name, required this.host, required this.userName, required this.password, required this.port});
+  const ServerLongClickDialog({super.key, required this.name, required this.host, required this.userName, required this.password, required this.port});
 
   @override
   Widget build(BuildContext context) {

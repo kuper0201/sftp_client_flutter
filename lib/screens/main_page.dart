@@ -55,7 +55,7 @@ class SFTPClient extends StatelessWidget {
                       onLongPress: () {
                         showDialog(
                           context: context,
-                          builder: (context) => LongClickDialog(name: name, host: host, userName: userName, password: password, port: port)
+                          builder: (context) => ServerLongClickDialog(name: name, host: host, userName: userName, password: password, port: port)
                         );
                       },
                     ),

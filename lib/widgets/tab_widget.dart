@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sftp_flutter/widgets/list_item.dart';
-import 'package:sftp_flutter/view_models/remote_vm.dart';
 
 class ClientTab<T> extends StatelessWidget {
   const ClientTab({super.key});
@@ -13,7 +12,7 @@ class ClientTab<T> extends StatelessWidget {
       builder: (context) {
         // viewModel.disconnect();
         return AlertDialog(
-          title: Text('Connection error!'),
+          title: Text('Error on fetching files'),
           actions: [
             ElevatedButton(
               onPressed: () {
@@ -62,7 +61,7 @@ class ClientTab<T> extends StatelessWidget {
           );
         }
 
-        return Text("Error");
+        return Center(child: Text("Unexpected Error"));
       }
     ); 
   }
