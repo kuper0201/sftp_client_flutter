@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sftp_flutter/widgets/custom_expandable_fab.dart';
 import 'package:sftp_flutter/repositories/local_repo.dart';
 import 'package:sftp_flutter/repositories/remote_repo.dart';
-import 'package:sftp_flutter/widgets/local_tab.dart';
-import 'package:sftp_flutter/widgets/remote_tab.dart';
+import 'package:sftp_flutter/widgets/tab_widget.dart';
 import 'package:sftp_flutter/view_models/local_vm.dart';
 import 'package:sftp_flutter/view_models/remote_vm.dart';
 
@@ -80,8 +79,8 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
           body: TabBarView(
             controller: _tabController,
             children: [
-              RemoteTab(),
-              LocalTab()
+              ClientTab<RemoteViewModel>(),
+              ClientTab<LocalViewModel>()
             ]
           ),
         );
