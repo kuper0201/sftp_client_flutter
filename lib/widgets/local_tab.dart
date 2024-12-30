@@ -11,7 +11,7 @@ class LocalTab extends StatelessWidget {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        viewModel.disconnect();
+        // viewModel.disconnect();
         return AlertDialog(
           title: Text('Listing error!'),
           actions: [
