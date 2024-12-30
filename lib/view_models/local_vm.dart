@@ -59,8 +59,15 @@ class LocalViewModel extends BaseViewModel {
   }
 
   @override
-  void onDelete() {
-    print("local delete");
+  void onDelete() async {
+    for(final entry in selectedEntries) {
+      final totalPath = "$path/${entry.name}";
+      await localRepo.remove(totalPath);
+    }
+
+    selectedEntries.clear();
+
+    fetchFiles();
   }
 
   @override

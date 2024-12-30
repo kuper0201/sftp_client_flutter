@@ -50,6 +50,10 @@ abstract class BaseViewModel with ChangeNotifier {
   void navigateTo(EntryData entry);
   
   void _selectEntry(EntryData entry) {
+    if(entry.name == "..") {
+      return;
+    }
+
     if(selectedEntries.contains(entry)) {
       entry.isSelected = false;
       selectedEntries.remove(entry); 

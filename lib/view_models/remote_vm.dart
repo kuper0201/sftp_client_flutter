@@ -61,8 +61,15 @@ class RemoteViewModel extends BaseViewModel {
   }
 
   @override
-  void onDelete() {
-    print("remote delete");
+  void onDelete() async {
+    for(final entry in selectedEntries) {
+      final totalPath = "$path/${entry.name}";
+      await sftpRepo.remove(totalPath);
+    }
+
+    selectedEntries.clear();
+
+    fetchFiles();
   }
 
   @override

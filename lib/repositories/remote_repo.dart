@@ -49,6 +49,15 @@ class SFTPRepo {
     }
   }
 
+  Future<void> remove(String totalPath) async {
+    try {
+      return await _sftp!.remove(totalPath);
+    } catch (e) {
+      print('Error on remove: $e');
+      rethrow;
+    }
+  }
+
   void disconnect() {
     // _sftp!.close();
   }

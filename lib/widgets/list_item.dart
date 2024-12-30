@@ -5,9 +5,9 @@ class ListItem extends StatelessWidget {
   final EntryData item;
   final bool isSelected;
   final Function() onTap;
-  final Function() onLongPress;
+  final Function()? onLongPress;
 
-  ListItem({required this.item, required this.isSelected, required this.onTap, required this.onLongPress}) : super(key: Key(item.name));
+  ListItem({required this.item, required this.isSelected, required this.onTap, this.onLongPress}) : super(key: Key(item.name));
 
   String getSize(int size) {
     final unit = ["B", "KB", "MB", "GB", "TB", "PB"];

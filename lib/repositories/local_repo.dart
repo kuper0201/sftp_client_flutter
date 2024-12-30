@@ -25,4 +25,20 @@ class LocalRepo {
       rethrow;
     }
   }
+
+  Future<void> remove(String totalPath) async {
+    try {
+      final dir = Directory(totalPath);
+      if(dir.statSync().type == FileSystemEntityType.directory) {
+        return dir.deleteSync();
+      } else {
+        final file = File(totalPath);
+        return file.deleteSync();
+      }
+      
+    } catch (e) {
+      print('Error on remove: $e');
+      rethrow;
+    }
+  }
 }
