@@ -26,18 +26,32 @@ class LocalRepo {
     }
   }
 
-  Future<void> remove(String totalPath) async {
+  Future<void> remove(String totalPath, bool isFile) async {
     try {
-      final dir = Directory(totalPath);
-      if(dir.statSync().type == FileSystemEntityType.directory) {
-        return dir.deleteSync();
-      } else {
+      if(isFile) {
         final file = File(totalPath);
         return file.deleteSync();
+      } else {
+        final dir = Directory(totalPath);
+        return dir.deleteSync();
       }
-      
     } catch (e) {
       print('Error on remove: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> rename(String totalPath, String newName, bool isFile) async {
+    try {
+      if(isFile) {
+        final file = File(totalPath);
+        file.renameSync(newName);
+      } else {
+        final dir = Directory(totalPath);
+        dir.renameSync(newName);
+      }
+    } catch (e) {
+      print('Error on rename: $e');
       rethrow;
     }
   }

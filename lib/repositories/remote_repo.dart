@@ -49,11 +49,25 @@ class SFTPRepo {
     }
   }
 
-  Future<void> remove(String totalPath) async {
+  Future<void> remove(String totalPath, bool isFile) async {
     try {
-      return await _sftp!.remove(totalPath);
+      if(isFile) {
+        return await _sftp!.remove(totalPath);
+      } else {
+        return await _sftp!.rmdir(totalPath);
+      }
+      
     } catch (e) {
       print('Error on remove: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> rename(String totalPath, String newName) async {
+    try {
+      _sftp!.rename(totalPath, newName);
+    } catch (e) {
+      print('Error on rename: $e');
       rethrow;
     }
   }

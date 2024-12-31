@@ -62,12 +62,10 @@ class LocalViewModel extends BaseViewModel {
   void onDelete() async {
     for(final entry in selectedEntries) {
       final totalPath = "$path/${entry.name}";
-      await localRepo.remove(totalPath);
+      await localRepo.remove(totalPath, entry.type == Type.file);
     }
 
-    selectedEntries.clear();
-
-    fetchFiles();
+    super.onDelete();
   }
 
   @override
@@ -81,7 +79,13 @@ class LocalViewModel extends BaseViewModel {
   }
 
   @override
-  void onRename() {
-    print("local rename");
+  void onRename(String newName) {
+    for(final entry in selectedEntries) {
+      final totalPath = "$path/${entry.name}";
+      final newNameTotalPath = "$path/$newName";
+      localRepo.rename(totalPath, newNameTotalPath, entry.type == Type.file);
+    }
+
+    super.onRename(newName);
   }
 }

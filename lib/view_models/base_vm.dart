@@ -79,8 +79,14 @@ abstract class BaseViewModel with ChangeNotifier {
   }
 
   void newDirectory(String name);
-  void onDelete();
+  void onDelete() {
+    unselectAll();
+    fetchFiles();
+  }
   void onCopy();
   void onCut();
-  void onRename();
+  void onRename(String newName) {
+    unselectAll();
+    fetchFiles();
+  }
 }

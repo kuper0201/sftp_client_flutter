@@ -40,6 +40,66 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
     return (viewModel.isSelectMode) ? IconButton(onPressed: () => viewModel.unselectAll(), icon: Icon(Icons.close)) : IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back));
   }
 
+  void _showCheckAgainDialog(Function() onDelete) {
+    showDialog(
+      context: context,
+      builder:(context) {
+        return AlertDialog(
+          title: Text("Remove items?"),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel")
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await onDelete();
+                if(context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("OK")
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRenameDialog(Function(String) onRename) {
+    showDialog(
+      context: context,
+      builder:(context) {
+        TextEditingController tc = TextEditingController();
+        return AlertDialog(
+          title: Text("Rename"),
+          content: TextField(
+            controller: tc,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: "Input new name",
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel")
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await onRename(tc.text);
+                if(context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("OK")
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -55,8 +115,8 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
             leading: _buildLeading(viewModel),
             actions: (viewModel.isSelectMode) ? [
               Text("${viewModel.selectedEntries.length} Items"),
-              if(viewModel.selectedEntries.length == 1) IconButton(onPressed: viewModel.onRename, icon: Icon(Icons.drive_file_rename_outline)),
-              IconButton(onPressed: viewModel.onDelete, icon: Icon(Icons.delete)),
+              if(viewModel.selectedEntries.length == 1) IconButton(onPressed: () => _showRenameDialog(viewModel.onRename), icon: Icon(Icons.drive_file_rename_outline)),
+              IconButton(onPressed: () =>_showCheckAgainDialog(viewModel.onDelete), icon: Icon(Icons.delete)),
               IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
               IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
               if(viewModel is RemoteViewModel) IconButton(onPressed: () => {}, icon: Icon(Icons.download))
