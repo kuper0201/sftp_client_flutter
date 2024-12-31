@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartssh2/dartssh2.dart';
 
 class SFTPRepo {
@@ -68,6 +70,30 @@ class SFTPRepo {
       _sftp!.rename(totalPath, newName);
     } catch (e) {
       print('Error on rename: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> download(String origin, String local) async {
+    try {
+      final file = await _sftp!.open(origin);
+      final content = await file.readBytes();
+      
+      final localFile = File(local);
+      localFile.createSync();
+      localFile.writeAsBytesSync(content);
+    } catch (e) {
+      print('Error on download: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> upload(String origin, String local) async {
+    try {
+      final file = await _sftp!.open(origin, mode: SftpFileOpenMode.create | SftpFileOpenMode.write);
+      await file.write(File(local).openRead().cast());
+    } catch (e) {
+      print('Error on upload: $e');
       rethrow;
     }
   }

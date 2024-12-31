@@ -90,4 +90,19 @@ class RemoteViewModel extends BaseViewModel {
 
     super.onRename(newName);
   }
+  
+  void downloadFile(String downloadPath) {
+    for(final entry in selectedEntries) {
+      final origin = '$path/${entry.name}';
+      sftpRepo.download(origin, "$downloadPath/${entry.name}");
+    }
+  }
+
+  void uploadFile(Set<EntryData> entries, String localPath) {
+    for(final entry in entries) {
+      final originPath = "$path/${entry.name}";
+      final localFilePath = "$localPath/${entry.name}";
+      sftpRepo.upload(originPath, localFilePath);
+    }
+  }
 }

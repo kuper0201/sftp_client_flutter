@@ -119,8 +119,8 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
               IconButton(onPressed: () =>_showCheckAgainDialog(viewModel.onDelete), icon: Icon(Icons.delete)),
               IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
               IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
-              if(viewModel is RemoteViewModel) IconButton(onPressed: () => {}, icon: Icon(Icons.download))
-              else IconButton(onPressed: () => {}, icon: Icon(Icons.upload)),
+              if(viewModel is RemoteViewModel) IconButton(onPressed: () => viewModel.downloadFile(context.read<LocalViewModel>().path), icon: Icon(Icons.download))
+              else IconButton(onPressed: () => context.read<RemoteViewModel>().uploadFile(viewModel.selectedEntries, viewModel.path), icon: Icon(Icons.upload)),
             ] : null,
             title: Column(
               children: [
