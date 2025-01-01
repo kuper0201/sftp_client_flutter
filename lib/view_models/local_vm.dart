@@ -7,10 +7,12 @@ import 'package:sftp_flutter/view_models/base_vm.dart';
 class LocalViewModel extends BaseViewModel {
   final LocalRepo localRepo;
 
-  LocalViewModel({required this.localRepo}):super();
+  LocalViewModel({required this.localRepo}) : super(serverName: "Local");
 
   @override
   Future<void> fetchFiles() async {
+    await super.fetchFiles();
+    
     isLoading = true;
     onError = null;
     entries = [];

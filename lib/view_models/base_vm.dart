@@ -25,11 +25,15 @@ abstract class BaseViewModel with ChangeNotifier {
   String? get onError => _onError;
   set onError(String? val) => _onError = val;
 
-  String _serverName = "Local";
-  String get serverName => _serverName;
-  set serverName(String val) => _serverName = val;
+  final serverName;
 
-  Future<void> fetchFiles();
+  BaseViewModel({required this.serverName});
+
+  Future<void> fetchFiles() async {
+    _isSelectMode = false;
+    _selectedEntries.clear();
+    notifyListeners();
+  }
 
   void onTap(int index) {
     final entry = _entries[index];

@@ -6,10 +6,12 @@ import 'package:sftp_flutter/view_models/base_vm.dart';
 class RemoteViewModel extends BaseViewModel {
   final SFTPRepo sftpRepo;
 
-  RemoteViewModel({required this.sftpRepo});
+  RemoteViewModel({required this.sftpRepo}) : super(serverName: sftpRepo.name);
 
   @override
   Future<void> fetchFiles() async {
+    await super.fetchFiles();
+
     isLoading = true;
     onError = null;
     entries = [];
