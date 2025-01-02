@@ -136,8 +136,8 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
               Text("${viewModel.selectedEntries.length} Items"),
               if(viewModel.selectedEntries.length == 1) IconButton(onPressed: () => _showRenameDialog(viewModel.onRename), icon: Icon(Icons.drive_file_rename_outline)),
               IconButton(onPressed: () => _showCheckAgainDialog(viewModel.onDelete), icon: Icon(Icons.delete)),
-              IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
-              IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
+              // IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
+              // IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
               if(viewModel is RemoteViewModel) IconButton(onPressed: () => _showDownloadDialog(viewModel, context.read<LocalViewModel>().path), icon: Icon(Icons.download))
               else IconButton(onPressed: () => _showUploadDialog(context.read<RemoteViewModel>(), viewModel.selectedEntries, viewModel.path), icon: Icon(Icons.upload)),
               IconButton(onPressed: () => viewModel.fetchFiles(), icon: Icon(Icons.refresh))

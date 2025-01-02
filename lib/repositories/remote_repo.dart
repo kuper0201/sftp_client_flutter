@@ -108,5 +108,7 @@ class SFTPRepo {
 
   void disconnect() {
     // _sftp!.close();
+    final t = SftpName(filename: "test.txt", longname: "test", attr: SftpFileAttrs(size: 100));
+    
   }
 }
