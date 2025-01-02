@@ -7,6 +7,7 @@ import 'package:sftp_flutter/repositories/remote_repo.dart';
 import 'package:sftp_flutter/widgets/tab_widget.dart';
 import 'package:sftp_flutter/view_models/local_vm.dart';
 import 'package:sftp_flutter/view_models/remote_vm.dart';
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ClientPage extends StatefulWidget {
   final SFTPRepo remoteRepo;
@@ -100,6 +101,25 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
     );
   }
 
+  void _showDownloadDialog(viewModel, path) async {
+    ProgressDialog pd = ProgressDialog(context: context);
+    pd.show(max: viewModel.selectedEntries.length, msg: "Downloading...");
+    await viewModel.downloadFiles(path, (int idx) => pd.update(value: idx));
+    if(!viewModel.isDownloading) {
+      pd.close();
+    }
+  }
+
+  void _showUploadDialog(remoteViewModel, selectedEntries, path) async {
+    // context.read<RemoteViewModel>().uploadFile(viewModel.selectedEntries, viewModel.path)
+    ProgressDialog pd = ProgressDialog(context: context);
+    pd.show(max: selectedEntries.length, msg: "Uploading...");
+    await remoteViewModel.uploadFiles(selectedEntries, path, (int idx) => pd.update(value: idx));
+    if(!remoteViewModel.isUploading) {
+      pd.close();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -116,11 +136,11 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
             actions: (viewModel.isSelectMode) ? [
               Text("${viewModel.selectedEntries.length} Items"),
               if(viewModel.selectedEntries.length == 1) IconButton(onPressed: () => _showRenameDialog(viewModel.onRename), icon: Icon(Icons.drive_file_rename_outline)),
-              IconButton(onPressed: () =>_showCheckAgainDialog(viewModel.onDelete), icon: Icon(Icons.delete)),
+              IconButton(onPressed: () => _showCheckAgainDialog(viewModel.onDelete), icon: Icon(Icons.delete)),
               IconButton(onPressed: viewModel.onCopy, icon: Icon(Icons.copy)),
               IconButton(onPressed: viewModel.onCut, icon: Icon(Icons.cut)),
-              if(viewModel is RemoteViewModel) IconButton(onPressed: () => viewModel.downloadFile(context.read<LocalViewModel>().path), icon: Icon(Icons.download))
-              else IconButton(onPressed: () => context.read<RemoteViewModel>().uploadFile(viewModel.selectedEntries, viewModel.path), icon: Icon(Icons.upload)),
+              if(viewModel is RemoteViewModel) IconButton(onPressed: () => _showDownloadDialog(viewModel, context.read<LocalViewModel>().path), icon: Icon(Icons.download))
+              else IconButton(onPressed: () => _showUploadDialog(context.read<RemoteViewModel>(), viewModel.selectedEntries, viewModel.path), icon: Icon(Icons.upload)),
               IconButton(onPressed: () => viewModel.fetchFiles(), icon: Icon(Icons.refresh))
             ] : [IconButton(onPressed: () => viewModel.fetchFiles(), icon: Icon(Icons.refresh))],
             title: Column(

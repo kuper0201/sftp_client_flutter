@@ -76,12 +76,20 @@ class SFTPRepo {
 
   Future<void> download(String origin, String local) async {
     try {
-      final file = await _sftp!.open(origin);
-      final content = await file.readBytes();
-      
+      // 원격 파일 열기
+      final remoteFile = await _sftp!.open(origin);
+
+      // 로컬 파일 생성 및 스트림 준비
       final localFile = File(local);
-      localFile.createSync();
-      localFile.writeAsBytesSync(content);
+      final localSink = localFile.openWrite();
+
+      // 원격 파일 읽기 및 로컬 파일로 쓰기 (스트리밍)
+      await for (var chunk in remoteFile.read()) {
+        localSink.add(chunk);
+      }
+
+      // 스트림 닫기
+      await localSink.close();
     } catch (e) {
       print('Error on download: $e');
       rethrow;
