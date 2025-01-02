@@ -6,14 +6,10 @@ import 'package:sftp_flutter/view_models/base_vm.dart';
 class RemoteViewModel extends BaseViewModel {
   final SFTPRepo sftpRepo;
 
-  bool _isDownloading = false;
-  bool get isDownloading => _isDownloading;
+  bool _isProcessing = false;
+  bool get isProcessing => _isProcessing;
 
-  bool _isUploading = false;
-  bool get isUploading => _isUploading;
-
-  int downloadState = 0;
-  int uploadState = 0;
+  int processState = 0;
 
   RemoteViewModel({required this.sftpRepo}) : super(serverName: sftpRepo.name);
 
@@ -103,37 +99,37 @@ class RemoteViewModel extends BaseViewModel {
   }
   
   void downloadFiles(String downloadPath, Function(int) callBack) async {
-    _isDownloading = true;
+    _isProcessing = true;
     notifyListeners();
 
     for(final entry in selectedEntries) {
       final origin = '$path/${entry.name}';
       await sftpRepo.download(origin, "$downloadPath/${entry.name}");
-      downloadState += 1;
-      callBack(downloadState);
+      processState += 1;
+      callBack(processState);
       notifyListeners();
     }
 
-    downloadState = 0;
-    _isDownloading = false;
+    processState = 0;
+    _isProcessing = false;
     notifyListeners();
   }
 
   void uploadFiles(Set<EntryData> entries, String localPath, Function(int) callBack) async {
-    _isUploading = true;
+    _isProcessing = true;
     notifyListeners();
 
     for(final entry in entries) {
       final originPath = "$path/${entry.name}";
       final localFilePath = "$localPath/${entry.name}";
       await sftpRepo.upload(originPath, localFilePath);
-      uploadState += 1;
-      callBack(uploadState);
+      processState += 1;
+      callBack(processState);
       notifyListeners();
     }
 
-    uploadState = 0;
-    _isUploading = false;
+    processState = 0;
+    _isProcessing = false;
     notifyListeners();
   }
 }

@@ -105,17 +105,16 @@ class _ClientPageState extends State<ClientPage> with SingleTickerProviderStateM
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: viewModel.selectedEntries.length, msg: "Downloading...");
     await viewModel.downloadFiles(path, (int idx) => pd.update(value: idx));
-    if(!viewModel.isDownloading) {
+    if(!viewModel.isProcessing) {
       pd.close();
     }
   }
 
   void _showUploadDialog(remoteViewModel, selectedEntries, path) async {
-    // context.read<RemoteViewModel>().uploadFile(viewModel.selectedEntries, viewModel.path)
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: selectedEntries.length, msg: "Uploading...");
     await remoteViewModel.uploadFiles(selectedEntries, path, (int idx) => pd.update(value: idx));
-    if(!remoteViewModel.isUploading) {
+    if(!remoteViewModel.isProcessing) {
       pd.close();
     }
   }
