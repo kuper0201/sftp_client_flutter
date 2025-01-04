@@ -96,7 +96,10 @@ abstract class BaseViewModel with ChangeNotifier {
     unselectAll();
     fetchFiles();
   }
-  void onPaste();
+  void onPaste() {
+    unselectAll();
+    fetchFiles();
+  }
   void onCut();
   void onRename(String newName) {
     unselectAll();

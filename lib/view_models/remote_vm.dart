@@ -84,7 +84,8 @@ class RemoteViewModel extends BaseViewModel {
       await sftpRepo.copy(entry.absolutePath, toAbsolutePath);
     }
 
-    await fetchFiles();
+    // await fetchFiles();
+    super.onPaste();
   }
 
   @override

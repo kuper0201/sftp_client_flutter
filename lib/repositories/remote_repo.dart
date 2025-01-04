@@ -58,7 +58,6 @@ class SFTPRepo {
         return await _sftp!.remove(totalPath);
       } else {
         await _client!.run("rm -rf $totalPath");
-        return;
       }
     } catch (e) {
       print('Error on remove: $e');
