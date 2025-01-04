@@ -83,6 +83,8 @@ class RemoteViewModel extends BaseViewModel {
       final toAbsolutePath = "$path/${entry.name}";
       await sftpRepo.copy(entry.absolutePath, toAbsolutePath);
     }
+
+    await fetchFiles();
   }
 
   @override

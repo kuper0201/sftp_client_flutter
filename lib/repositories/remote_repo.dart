@@ -57,9 +57,9 @@ class SFTPRepo {
       if(isFile) {
         return await _sftp!.remove(totalPath);
       } else {
-        return await _sftp!.rmdir(totalPath);
+        await _client!.run("rm -rf $totalPath");
+        return;
       }
-      
     } catch (e) {
       print('Error on remove: $e');
       rethrow;
@@ -109,7 +109,7 @@ class SFTPRepo {
 
   Future<void> copy(String from, String to) async {
     try {
-      _client!.run('cp -r $from $to');
+      await _client!.run('cp -r $from $to');
     } catch (e) {
       print('Error on copy: $e');
       rethrow;
