@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:io/io.dart';
 
 class LocalRepo {
   Future<List<FileSystemEntity>> fetchEntries(String path) async {
@@ -33,7 +34,7 @@ class LocalRepo {
         return file.deleteSync();
       } else {
         final dir = Directory(totalPath);
-        return dir.deleteSync();
+        return dir.deleteSync(recursive: true);
       }
     } catch (e) {
       print('Error on remove: $e');
@@ -52,6 +53,20 @@ class LocalRepo {
       }
     } catch (e) {
       print('Error on rename: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> copy(String from, String to, bool isFile) async {
+    try {
+      if(isFile) {
+        final file = File(from);
+        file.copySync(to);
+      } else {
+        copyPathSync(from, to);
+      }
+    } catch (e) {
+      print('Error on copy: $e');
       rethrow;
     }
   }

@@ -71,8 +71,14 @@ class LocalViewModel extends BaseViewModel {
   }
 
   @override
-  void onPaste() {
-    print("local copy");
+  void onPaste() async {
+    for(final entry in selectedEntries) {
+      final toAbsolutePath = "$path/${entry.name}";
+      await localRepo.copy(entry.absolutePath, toAbsolutePath, (entry.type == Type.file));
+    }
+
+    // await fetchFiles();
+    super.onPaste();
   }
 
   @override
