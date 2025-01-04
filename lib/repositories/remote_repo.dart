@@ -9,6 +9,7 @@ class SFTPRepo {
   final String password;
   final int port;
 
+  SSHClient? _client;
   SftpClient? _sftp;
 
   SFTPRepo({required this.name, required this.host, this.port = 22, required this.userName, required this.password});
@@ -17,13 +18,13 @@ class SFTPRepo {
     try {
       final socket = await SSHSocket.connect(host, port);
       
-      SSHClient client = SSHClient(
+      _client = SSHClient(
         socket,
         username: userName,
         onPasswordRequest: () => password,
       );
 
-      _sftp = await client.sftp();
+      _sftp = await _client!.sftp();
     } catch (e) {
       print('connect sftp error: $e');
       rethrow;
@@ -106,9 +107,17 @@ class SFTPRepo {
     }
   }
 
+  Future<void> copy(String from, String to) async {
+    try {
+      _client!.run('cp -r $from $to');
+    } catch (e) {
+      print('Error on copy: $e');
+      rethrow;
+    }
+  }
+
   void disconnect() {
     // _sftp!.close();
-    final t = SftpName(filename: "test.txt", longname: "test", attr: SftpFileAttrs(size: 100));
     
   }
 }

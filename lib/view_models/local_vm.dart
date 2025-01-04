@@ -28,10 +28,10 @@ class LocalViewModel extends BaseViewModel {
         entries = _entries.map((entry) {
           final spt = entry.path.split("/");
           final name = spt[spt.length - 1];
-          return EntryData(name: name, type: (entry.statSync().type == FileSystemEntityType.file) ? Type.file : Type.directory, size: entry.statSync().size);
+          return EntryData(name: name, absolutePath: entry.path, type: (entry.statSync().type == FileSystemEntityType.file) ? Type.file : Type.directory, size: entry.statSync().size);
         }).toList();
       }
-      entries.insert(0, EntryData(name: "..", type: Type.directory));
+      entries.insert(0, EntryData(name: "..", absolutePath: path, type: Type.directory));
     } catch (e) {
       onError = e.toString();
       print(e);
@@ -71,7 +71,7 @@ class LocalViewModel extends BaseViewModel {
   }
 
   @override
-  void onCopy() {
+  void onPaste() {
     print("local copy");
   }
 

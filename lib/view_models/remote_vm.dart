@@ -30,7 +30,7 @@ class RemoteViewModel extends BaseViewModel {
 
       // Convert from sftpname to EntryData
       entries = _entries.map((entry) {
-        return EntryData(name: entry.filename, type: (entry.attr.isFile) ? Type.file : Type.directory, size: entry.attr.size, modifyTime: entry.attr.modifyTime, accesstime: entry.attr.accessTime);
+        return EntryData(name: entry.filename, absolutePath: "$path/${entry.filename}", type: (entry.attr.isFile) ? Type.file : Type.directory, size: entry.attr.size, modifyTime: entry.attr.modifyTime, accesstime: entry.attr.accessTime);
       }).toList();
     } catch (e) {
       onError = e.toString();
@@ -78,8 +78,11 @@ class RemoteViewModel extends BaseViewModel {
   }
 
   @override
-  void onCopy() {
-    print("remote copy");
+  void onPaste() async {
+    for(final entry in selectedEntries) {
+      final toAbsolutePath = "$path/${entry.name}";
+      await sftpRepo.copy(entry.absolutePath, toAbsolutePath);
+    }
   }
 
   @override

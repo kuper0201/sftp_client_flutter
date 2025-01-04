@@ -1,5 +1,6 @@
 class EntryData {
   String name;
+  String absolutePath;
   Type type;
   int? modifyTime;
   int? accesstime;
@@ -7,7 +8,7 @@ class EntryData {
 
   bool isSelected;
 
-  EntryData({required this.name, required this.type, this.size, this.modifyTime, this.accesstime, this.isSelected = false});
+  EntryData({required this.name, required this.absolutePath, required this.type, this.size, this.modifyTime, this.accesstime, this.isSelected = false});
 }
 
 enum Type {

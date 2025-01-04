@@ -21,6 +21,14 @@ abstract class BaseViewModel with ChangeNotifier {
   bool get isSelectMode => _isSelectMode;
   set isSelectMode(bool val) => _isSelectMode = val;
 
+  bool _isCopyMode = false;
+  bool get isCopyMode => _isCopyMode;
+  set isCopyMode(bool val) {
+    _isCopyMode = val;
+    _isSelectMode = false;
+    notifyListeners();
+  }
+
   String? _onError;
   String? get onError => _onError;
   set onError(String? val) => _onError = val;
@@ -31,7 +39,6 @@ abstract class BaseViewModel with ChangeNotifier {
 
   Future<void> fetchFiles() async {
     _isSelectMode = false;
-    _selectedEntries.clear();
     notifyListeners();
   }
 
@@ -79,6 +86,8 @@ abstract class BaseViewModel with ChangeNotifier {
     selectedEntries.clear();
     isSelectMode = selectedEntries.isNotEmpty;
 
+    isCopyMode = false;
+
     notifyListeners();
   }
 
@@ -87,7 +96,7 @@ abstract class BaseViewModel with ChangeNotifier {
     unselectAll();
     fetchFiles();
   }
-  void onCopy();
+  void onPaste();
   void onCut();
   void onRename(String newName) {
     unselectAll();
