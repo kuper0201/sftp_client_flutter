@@ -7,7 +7,7 @@ class LocalRepo {
       final dir = Directory(path);
       return dir.listSync().toList();
     } catch (e) {
-      print('fetch entry error: $e');
+      print('Error on fetch entries: $e');
       rethrow;
     }
   }
@@ -17,7 +17,7 @@ class LocalRepo {
       final dir = Directory(totalPath);
       dir.createSync();
     } catch (e) {
-      print('Error on new directory: $e');
+      print('Error on create directory: $e');
       rethrow;
     }
   }
